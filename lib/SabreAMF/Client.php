@@ -108,9 +108,10 @@
          * 
          * @param string $servicePath The servicepath (e.g.: myservice.mymethod)
          * @param array $data The parameters you want to send
+		 * @param array $needDeserialized The deserialized result whether you want to return
          * @return mixed 
          */
-        public function sendRequest($servicePath,$data) {
+        public function sendRequest($servicePath,$data,$needDeserialized=true) {
            
             // We're using the FLEX Messaging framework
             if($this->encoding & SabreAMF_Const::FLEXMSG) {
@@ -168,7 +169,10 @@
             } else {
                 curl_close($ch);
             }
-       
+			
+			if ($needDeserialized == false) {
+				return $result;
+			}
             $this->amfInputStream = new SabreAMF_InputStream($result);
             $this->amfResponse = new SabreAMF_Message(); 
             $this->amfResponse->deserialize($this->amfInputStream);
