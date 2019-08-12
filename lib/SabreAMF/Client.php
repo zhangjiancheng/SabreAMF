@@ -151,6 +151,12 @@
             curl_setopt($ch,CURLOPT_TIMEOUT,20);
             curl_setopt($ch,CURLOPT_HTTPHEADER,$headers);
             curl_setopt($ch,CURLOPT_POSTFIELDS,$this->amfOutputStream->getRawData());
+			
+			// Add UA
+			if (!empty($this->userAgent)) {
+				curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
+			}
+			
     		if ($this->httpProxy) {
     			curl_setopt($ch,CURLOPT_PROXY,$this->httpProxy);
     		}
@@ -252,6 +258,16 @@
             $this->amfRequest->setEncoding($encoding & SabreAMF_Const::AMF3);
 
         }
+		
+		/**
+         * Change the AMF useragent
+         *
+         * @param string $ua
+         * @return void
+         */
+		public function setUserAgent($ua){
+			$this->userAgent =$ua;
+		}
 
     }
 
