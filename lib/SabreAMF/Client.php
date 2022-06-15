@@ -111,7 +111,7 @@
 		 * @param array $needDeserialized The deserialized result whether you want to return
          * @return mixed 
          */
-        public function sendRequest($servicePath,$data,$needDeserialized=true) {
+        public function sendRequest($servicePath,$data,$needDeserialized=true, $timeout = 20) {
            
             // We're using the FLEX Messaging framework
             if($this->encoding & SabreAMF_Const::FLEXMSG) {
@@ -149,7 +149,7 @@
             $ch = curl_init($this->endPoint);
             curl_setopt($ch,CURLOPT_POST,1);
             curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch,CURLOPT_TIMEOUT,20);
+            curl_setopt($ch,CURLOPT_TIMEOUT, $timeout);
             curl_setopt($ch,CURLOPT_HTTPHEADER,$headers);
             curl_setopt($ch,CURLOPT_POSTFIELDS,$this->amfOutputStream->getRawData());
 			
